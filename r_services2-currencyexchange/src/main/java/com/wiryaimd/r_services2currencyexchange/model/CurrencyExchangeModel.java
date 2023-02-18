@@ -1,13 +1,30 @@
 package com.wiryaimd.r_services2currencyexchange.model;
 
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
+
 import java.math.BigDecimal;
 
+@Entity
+@Table(name = "_currency_exchange")
 public class CurrencyExchangeModel {
 
+    @Id
     private long id;
-    private String from, to;
+
+    @Column(name = "converstion_from")
+    private String from;
+
+    @Column(name = "converstion_to")
+    private String to;
+
     private BigDecimal conversionMultiple;
     private String environment;
+
+    public CurrencyExchangeModel() {
+    }
 
     public CurrencyExchangeModel(long id, String from, String to, BigDecimal conversionMultiple) {
         this.id = id;
