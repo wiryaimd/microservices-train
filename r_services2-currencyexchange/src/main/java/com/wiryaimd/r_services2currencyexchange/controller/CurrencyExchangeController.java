@@ -28,6 +28,7 @@ public class CurrencyExchangeController {
 
         System.out.println("env port: " + currencyExchangeModel.getEnvironment());
 
+
         return ResponseEntity.ok(currencyExchangeModel);
     }
 

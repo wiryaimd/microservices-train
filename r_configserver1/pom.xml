@@ -11,7 +11,7 @@
 	<groupId>com.wiryaimd.r_configserver1</groupId>
 	<artifactId>wiryaimd-r_configserver1</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>wiryaimd-r_configserver1</name>
+	<name>r_configserver1</name>
 	<description>Centralized config server for microservice spring cloud</description>
 	<properties>
 		<java.version>17</java.version>
