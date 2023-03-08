@@ -43,6 +43,9 @@ public class CurrencyConversionController {
             return ResponseEntity.notFound().build();
         }
 
+
+        log.info("conversion feign dgn base port: " + environment.getProperty("server.port"));
+
         return ResponseEntity.ok(new CurrencyConversionModel(currencyConversionModel.getId(), from, to, currencyConversionModel.getConversionMultiple(), quantity, quantity.multiply(currencyConversionModel.getConversionMultiple()), currencyConversionModel.getEnvironment() + "-restTemplate"));
     }
 
