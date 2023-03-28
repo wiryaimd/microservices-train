@@ -2,6 +2,7 @@ package com.wiryaimd.r_services2currencyexchange.controller;
 
 import com.wiryaimd.r_services2currencyexchange.model.CurrencyExchangeModel;
 import com.wiryaimd.r_services2currencyexchange.repository.CurrencyExchangeRepository;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import org.springframework.http.ResponseEntity;
@@ -12,6 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.math.BigDecimal;
 
 @RestController
+@Slf4j
 public class CurrencyExchangeController {
 
     @Autowired
@@ -27,6 +29,9 @@ public class CurrencyExchangeController {
         currencyExchangeModel.setEnvironment(environment.getProperty("local.server.port")); // bisa juga ditambah local. mungkin biar ngga bentrok ama ntar dari importan confignya
 
         System.out.println("env port: " + currencyExchangeModel.getEnvironment());
+
+        // nanti log nya bakal berisi spanId dan traceId karena formatnya udh diganti di app.properties agar berisi info tsb
+        log.info("hoooh anjae: {} to {}", from, to);
 
 
         return ResponseEntity.ok(currencyExchangeModel);
