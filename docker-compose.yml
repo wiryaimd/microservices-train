@@ -1,0 +1,22 @@
+version: "0.0.0.1" # ini version gatau referens kemana jadinya ngawur lul
+
+# ini file docker compose
+# jadi docker compose itu untuk mengatur multiple-container dengan menggunakan file yaml / .yml
+# kegunaannya bisa ngedefine image mana yg akan otomatis di launch ketika ngejalanin file docker-compose nya,
+# jadi ngga perlu repot repot masukin command docker run -p satu satu buat imagenya
+
+# di docker compose ini banyak konfigurasi yg dapat dilakukan seperti define services/container,
+# mengatur network, configs, env variable,  pull online images sprt mysql, atur volume, atur mem/cpu usage, dan banyak hal lainnya
+
+# services itu container, yg bakal di run oleh docker-compose saat menjalankan docker-compose up
+services:
+  currency-conversion: # nama service nya apa
+    image: wiryaimdx/mbjridd # image yg dipakai apa, bisa local atau pake docker registry
+    ports:
+      - "8003:8080" # set port outer dan inner nya untuk container ini
+    networks:
+      - currency-network # jadi service ini memakai network currency-network
+
+# bisa config networks untuk imagenya
+networks:
+  currency-network: # nama networknya apa
