@@ -12,10 +12,61 @@ version: "0.0.0.1" # ini version gatau referens kemana jadinya ngawur lul
 services:
   currency-conversion: # nama service nya apa
     image: wiryaimdx/mbjridd # image yg dipakai apa, bisa local atau pake docker registry
+    mem_limit: 700m # untuk set maks mem yg bisa dipakai oleh service ini
     ports:
       - "8003:8080" # set port outer dan inner nya untuk container ini
     networks:
       - currency-network # jadi service ini memakai network currency-network
+    depends_on: # untuk memberi tahu kalau currency-conversion bertegantungan dengan service naming-server
+      - naming-server
+    environment:
+      # jadi env ini sama kaya env pada umumnya (untuk args / misal ngerun mvn spring-boot -Dargs.nya=apa) jadi ini bakal nge replace config eureka yg ada di app.properties currency-conversion menjadi http://naming-server:8761/eureka
+      # http://localhost:8761 diganti menjadi http://naming-server:8761 karena container nge call localhost tidak ke mesin kita, tetapi memanggil di dalam container itu sendiri
+      eureka.client.service-url.defaultZone: http://naming-server:8761/eureka
+      management.zipkin.tracing.endpoint: http://zipkin-server:9411/api/v2/spans
+
+  currency-exchange:
+    image: wiryaimd/ohh-and-i-miss-my-lover:1.0.0
+    mem_limit: 700m
+    ports:
+      - "8001:8001"
+    networks:
+      - currency-network
+    depends_on:
+      - naming-server
+    environment:
+      eureka.client.service-url.defaultZone: http://naming-server:8761/eureka
+      management.zipkin.tracing.endpoint: http://zipkin-server:9411/api/v2/spans
+
+  api-gateway:
+    image: wiryaimd/api-gateway:1.0
+    mem_limit: 700m
+    ports:
+      - "8765:8765"
+    networks:
+      - currency-network
+    depends_on:
+      - naming-server
+    environment:
+      eureka.client.service-url.defaultZone: http://naming-server:8761/eureka
+      management.zipkin.tracing.endpoint: http://zipkin-server:9411/api/v2/spans
+
+#    zipkin-server: # untuk zipkin serper
+#      image: openzipkin/zipkin:2.23
+#      mem_limit: 300m
+#      ports:
+#        - "9411:9411"
+#      networks:
+#        - currency-network
+#      restart: always #Restart if there is a problem starting up
+
+  naming-server:
+    image: mnyaaw/kyun_naming_server:1.0
+    mem_limit: 700m
+    ports:
+      - "8761:8761"
+    networks:
+      - currency-network
 
 # bisa config networks untuk imagenya
 networks:
